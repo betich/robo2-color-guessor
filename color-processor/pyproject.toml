@@ -5,9 +5,13 @@ description = ""
 authors = ["betich <betich365@gmail.com>"]
 readme = "README.md"
 
+[tool.poetry.scripts]
+start = "color_processor.main:main"
+
 [tool.poetry.dependencies]
 python = "^3.12"
 opencv-python = "^4.9.0.80"
+ultralytics = "^8.2.2"
 
 
 [build-system]
