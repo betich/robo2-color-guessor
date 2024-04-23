@@ -1,4 +1,4 @@
-from color_processor.app import app
+from . import app
 
 @app.route("/")
 def hello_world():

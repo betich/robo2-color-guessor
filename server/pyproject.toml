@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "color-processor"
+name = "server"
 version = "0.1.0"
 description = ""
 authors = ["betich <betich365@gmail.com>"]
@@ -10,9 +10,8 @@ start = "run:main"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-opencv-python = "^4.9.0.80"
-ultralytics = "^8.2.2"
-
+flask = "^3.0.3"
+gunicorn = "^22.0.0"
 
 [build-system]
 requires = ["poetry-core"]
