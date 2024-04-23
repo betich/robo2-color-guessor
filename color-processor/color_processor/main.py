@@ -1,56 +1,10 @@
-import cv2
+from color_processor.qr_code import qr_code_camera
+from color_processor.app import app
 
-def detect_qr_code(img_path):
-  qcd = cv2.QRCodeDetector()
-  
-  img = None
-  
-  try:
-    img = cv2.imread(img_path)
-  except:
-    print('Image not found')
-    return
-
-  retval, decoded_info, points, straight_qrcode = qcd.detectAndDecodeMulti(img)
-
-  return (retval, decoded_info)
-
-def qr_code_camera():
-  camera_id = 0
-  delay = 1
-  window_name = 'OpenCV QR Code'
-
-  qcd = cv2.QRCodeDetector()
-  cap = cv2.VideoCapture(camera_id)
-
-  while True:
-      ret, frame = cap.read()
-
-      if ret:
-          ret_qr, decoded_info, points, _ = qcd.detectAndDecodeMulti(frame)
-          if ret_qr:
-              for s, p in zip(decoded_info, points):
-                  if s:
-                      print(s)
-                      color = (0, 255, 0)
-                  else:
-                      color = (0, 0, 255)
-                  frame = cv2.polylines(frame, [p.astype(int)], True, color, 8)
-          cv2.imshow(window_name, frame)
-
-      if cv2.waitKey(delay) & 0xFF == ord('q'):
-          break
-
-  cv2.destroyWindow(window_name)
 
 def main():
-  # retval, decoded_info = detect_qr_code('images/two.png')
-
-  # if retval:
-  #   print(f'QR Code detected: {decoded_info}')
-
+  # app.run(host='0.0.0.0', port=5002)
   qr_code_camera()
-
 
 if __name__ == '__main__':
   main()
