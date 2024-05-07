@@ -1,0 +1,2 @@
+default_fqbn: esp32:esp32:esp32wrover
+default_port: /dev/cu.usbserial-130
