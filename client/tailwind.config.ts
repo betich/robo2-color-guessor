@@ -13,6 +13,13 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        breakfast: {
+          bun: "#EEE27B",
+          meat: "#9BD2CC",
+          hotdog: "#EF7044",
+        },
+      },
     },
   },
   plugins: [],

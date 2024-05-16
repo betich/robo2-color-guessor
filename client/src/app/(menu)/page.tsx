@@ -5,7 +5,8 @@ import Drinks from "@/components/menu/drinks";
 import MainCourse from "@/components/menu/main_course";
 import clsx from "clsx";
 import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const [currentPlayer, setCurrentPlayer] = useState<"p1" | "p2">(
@@ -16,6 +17,9 @@ export default function Home() {
     setCurrentPlayer(player);
     localStorage.setItem("currentPlayer", player);
   };
+
+  const p1HighScore = localStorage.getItem("p1HighScore") || 0;
+  const p2HighScore = localStorage.getItem("p2HighScore") || 0;
 
   return (
     <main
@@ -31,8 +35,12 @@ export default function Home() {
       <Image src="/bg.png" layout="fill" objectFit="cover" alt="" />
 
       <div className="absolute right-4 top-4 flex flex-col">
-        <h1 className="text-lg font-bold">p1 high score: 0</h1>
-        <h1 className="text-lg font-bold">p2 high score: 0</h1>
+        <h1 className="text-lg font-bold text-white">
+          p1 high score: {p1HighScore}
+        </h1>
+        <h1 className="text-lg font-bold text-white">
+          p2 high score: {p2HighScore}
+        </h1>
       </div>
 
       <div className="absolute bottom-4 left-4 flex items-center gap-2">
@@ -60,41 +68,53 @@ export default function Home() {
         </button>
       </div>
 
-      <button className="absolute bottom-4 left-[13rem] flex w-36 flex-col items-center gap-y-4 p-4">
+      <Link
+        href="/appetizer"
+        className="absolute bottom-4 left-[13rem] flex w-36 flex-col items-center gap-y-4 p-4"
+      >
         <Appetizer />
 
         <div className="flex flex-col items-center">
           <h1 className="text-center text-2xl font-bold">appetizer</h1>
           <p className="text-center text-lg font-bold">( easy )</p>
         </div>
-      </button>
+      </Link>
 
-      <button className="absolute bottom-4 left-[26rem] flex w-36 flex-col items-center gap-y-4 p-4">
+      <Link
+        href="/maincourse"
+        className="absolute bottom-4 left-[26rem] flex w-36 flex-col items-center gap-y-4 p-4"
+      >
         <MainCourse />
 
         <div className="flex flex-col items-center">
           <h1 className="text-center text-2xl font-bold">main course</h1>
           <p className="text-center text-lg font-bold">( medium )</p>
         </div>
-      </button>
+      </Link>
 
-      <button className="absolute bottom-4 left-[38rem] flex w-36 flex-col items-center gap-y-4 p-4">
+      <Link
+        href="/dessert"
+        className="absolute bottom-4 left-[38rem] flex w-36 flex-col items-center gap-y-4 p-4"
+      >
         <Dessert />
 
         <div className="flex flex-col items-center">
           <h1 className="text-center text-2xl font-bold">dessert</h1>
           <p className="text-center text-lg font-bold">( hard )</p>
         </div>
-      </button>
+      </Link>
 
-      <button className="absolute bottom-2 right-[4rem] flex w-36 flex-col items-center gap-y-4 p-4">
+      <Link
+        href="/drinks"
+        className="absolute bottom-2 right-[4rem] flex w-36 flex-col items-center gap-y-4 p-4"
+      >
         <Drinks />
 
         <div className="flex flex-col items-center">
           <h1 className="text-center text-2xl font-bold">drinks</h1>
           <p className="text-center text-lg font-bold">***</p>
         </div>
-      </button>
+      </Link>
     </main>
   );
 }
