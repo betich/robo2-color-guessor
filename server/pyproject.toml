@@ -12,6 +12,7 @@ start = "run:main"
 python = "^3.12"
 flask = "^3.0.3"
 gunicorn = "^22.0.0"
+flask-socketio = "^5.3.6"
 
 [build-system]
 requires = ["poetry-core"]

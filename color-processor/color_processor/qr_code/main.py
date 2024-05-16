@@ -1,4 +1,5 @@
 import cv2
+from color_processor.socket import sio
 
 def detect_qr_code(img_path):
   qcd = cv2.QRCodeDetector()
@@ -16,6 +17,8 @@ def detect_qr_code(img_path):
   return (retval, decoded_info)
 
 def qr_code_camera():
+  # 0 -> webcam
+  # 1 -> built-in camera
   camera_id = 1
   # view all possible camera ids
 
@@ -40,6 +43,7 @@ def qr_code_camera():
                     color = (0, 0, 255)
                   frame = cv2.polylines(frame, [p.astype(int)], True, color, 8)
                 print(detected_values)
+                sio.emit('color', {'data': detected_values})
           cv2.imshow(window_name, frame)
 
       if cv2.waitKey(delay) & 0xFF == ord('q'):
