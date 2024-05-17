@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { ColorType, GameStateProps } from "./question";
+import { ColorType, GameStateProps } from "../question";
 import { Scanner } from "@yudiel/react-qr-scanner";
 
 export function HotDogQuestion({ gameState, setGameState }: GameStateProps) {

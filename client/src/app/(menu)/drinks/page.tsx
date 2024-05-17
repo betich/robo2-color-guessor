@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import AppetizerPage from "@/components/game/appetizer/main";
+import DrinksPage from "@/components/game/drinks/main";
 import { useTimer } from "@/utils/useTimer";
-import QuestionPage, { ColorType } from "@/components/game/appetizer/question";
+import QuestionPage, { ColorType } from "@/components/game/drinks/question";
 import { timeToScore } from "@/utils/score";
 
 import { io, type Socket } from "socket.io-client";
@@ -18,24 +18,24 @@ interface ClientToServerEvents {
   // hello: () => void;
 }
 
-export interface AppetizerGameState {
-  breakfast: BreakfastProps;
+export interface DrinksGameState {
+  infinityFuzz: InfinityFuzzProps;
 }
 
-export interface BreakfastProps {
-  hotdog: { leaf: boolean; star: boolean; amanita: boolean; done: boolean };
-  bun: { jellyfish: boolean; gummy: boolean; done: boolean };
-  meat: { berry: boolean; done: boolean };
+export interface InfinityFuzzProps {
+  ice: { leaf: boolean; jellyfish: boolean; amanita: boolean; done: boolean };
+  topping: { fairy: boolean; gummy: boolean; done: boolean };
+  drink: { stone: boolean; minty: boolean; done: boolean };
 }
 
-export type ItemType = keyof AppetizerGameState["breakfast"];
+export type ItemType = keyof DrinksGameState["infinityFuzz"];
 
 export default function Appetizer() {
-  const [gameState, setGameState] = useState<AppetizerGameState>({
-    breakfast: {
-      hotdog: { leaf: false, star: false, amanita: false, done: false },
-      bun: { jellyfish: false, gummy: false, done: false },
-      meat: { berry: false, done: false },
+  const [gameState, setGameState] = useState<DrinksGameState>({
+    infinityFuzz: {
+      ice: { leaf: false, jellyfish: false, amanita: false, done: false },
+      topping: { fairy: false, gummy: false, done: false },
+      drink: { stone: false, minty: false, done: false },
     },
   });
 
@@ -43,7 +43,7 @@ export default function Appetizer() {
   const [penaltyDisplay, setPenaltyDisplay] = useState<boolean>(false);
 
   const [page, setPage] = useState<"main" | "question">("main");
-  const [item, setItem] = useState<ItemType>("meat");
+  const [item, setItem] = useState<ItemType>("drink");
 
   const { time, stopTimer } = useTimer();
   const [gameEnd, setGameEnd] = useState<boolean>(false);
@@ -59,20 +59,19 @@ export default function Appetizer() {
   }, []);
 
   useEffect(() => {
-    // hotdog
-    const hotdogState = gameState.breakfast.hotdog;
+    const iceState = gameState.infinityFuzz.ice;
     if (
-      hotdogState.leaf &&
-      hotdogState.star &&
-      hotdogState.amanita &&
-      !hotdogState.done
+      iceState.leaf &&
+      iceState.jellyfish &&
+      iceState.amanita &&
+      !iceState.done
     ) {
       setGameState((prev) => ({
         ...prev,
-        breakfast: {
-          ...prev.breakfast,
-          hotdog: {
-            ...prev.breakfast.hotdog,
+        infinityFuzz: {
+          ...prev.infinityFuzz,
+          ice: {
+            ...prev.infinityFuzz.ice,
             done: true,
           },
         },
@@ -83,15 +82,14 @@ export default function Appetizer() {
       }, 1000);
     }
 
-    // bun
-    const bunState = gameState.breakfast.bun;
-    if (bunState.jellyfish && bunState.gummy && !bunState.done) {
+    const toppingState = gameState.infinityFuzz.topping;
+    if (toppingState.fairy && toppingState.gummy && !toppingState.done) {
       setGameState((prev) => ({
         ...prev,
-        breakfast: {
-          ...prev.breakfast,
-          bun: {
-            ...prev.breakfast.bun,
+        infinityFuzz: {
+          ...prev.infinityFuzz,
+          topping: {
+            ...prev.infinityFuzz.topping,
             done: true,
           },
         },
@@ -102,16 +100,14 @@ export default function Appetizer() {
       }, 1000);
     }
 
-    // meat
-    const meatState = gameState.breakfast.meat;
-
-    if (meatState.berry && !meatState.done) {
+    const drinkState = gameState.infinityFuzz.drink;
+    if (drinkState.stone && drinkState.minty && !drinkState.done) {
       setGameState((prev) => ({
         ...prev,
-        breakfast: {
-          ...prev.breakfast,
-          meat: {
-            ...prev.breakfast.meat,
+        infinityFuzz: {
+          ...prev.infinityFuzz,
+          drink: {
+            ...prev.infinityFuzz.drink,
             done: true,
           },
         },
@@ -124,14 +120,14 @@ export default function Appetizer() {
 
     // all done
     if (
-      hotdogState.done &&
-      bunState.done &&
-      meatState.done &&
+      iceState.done &&
+      toppingState.done &&
+      drinkState.done &&
       page === "main"
     ) {
       // save score
       const player = localStorage.getItem("currentPlayer");
-      const score = timeToScore(time, penalty);
+      const score = timeToScore(time, penalty, 24000);
 
       stopTimer();
       setGameEnd(true);
@@ -156,29 +152,29 @@ export default function Appetizer() {
       console.log("color detected", color);
       console.log("item", item);
 
-      // hotdog
-      if (item === "hotdog") {
+      // ice
+      if (item === "ice") {
         switch (color) {
           case "GREEN":
             setGameState((prev) => ({
               ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                hotdog: {
-                  ...prev.breakfast.hotdog,
+              infinityFuzz: {
+                ...prev.infinityFuzz,
+                ice: {
+                  ...prev.infinityFuzz.ice,
                   leaf: true,
                 },
               },
             }));
             break;
-          case "WHITE":
+          case "BLUE":
             setGameState((prev) => ({
               ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                hotdog: {
-                  ...prev.breakfast.hotdog,
-                  star: true,
+              infinityFuzz: {
+                ...prev.infinityFuzz,
+                ice: {
+                  ...prev.infinityFuzz.ice,
+                  jellyfish: true,
                 },
               },
             }));
@@ -186,17 +182,17 @@ export default function Appetizer() {
           case "RED":
             setGameState((prev) => ({
               ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                hotdog: {
-                  ...prev.breakfast.hotdog,
+              infinityFuzz: {
+                ...prev.infinityFuzz,
+                ice: {
+                  ...prev.infinityFuzz.ice,
                   amanita: true,
                 },
               },
             }));
             break;
           default:
-            console.log("PENALTY hotdog", "item ->", item, "color ->", color);
+            console.log("PENALTY ice", "item ->", item, "color ->", color);
             setPenalty((prev) => prev + 10);
             // setPenaltyDisplay(true);
             setTimeout(() => {
@@ -206,17 +202,16 @@ export default function Appetizer() {
         }
       }
 
-      // bun
-      if (item === "bun") {
+      if (item === "topping") {
         switch (color) {
-          case "BLUE":
+          case "AQUA":
             setGameState((prev) => ({
               ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                bun: {
-                  ...prev.breakfast.bun,
-                  jellyfish: true,
+              infinityFuzz: {
+                ...prev.infinityFuzz,
+                topping: {
+                  ...prev.infinityFuzz.topping,
+                  fairy: true,
                 },
               },
             }));
@@ -224,17 +219,17 @@ export default function Appetizer() {
           case "YELLOW":
             setGameState((prev) => ({
               ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                bun: {
-                  ...prev.breakfast.bun,
+              infinityFuzz: {
+                ...prev.infinityFuzz,
+                topping: {
+                  ...prev.infinityFuzz.topping,
                   gummy: true,
                 },
               },
             }));
             break;
           default:
-            console.log("PENALTY bun", "item ->", item, "color ->", color);
+            console.log("PENALTY topping", "item ->", item, "color ->", color);
             setPenalty((prev) => prev + 10);
             // setPenaltyDisplay(true);
             setTimeout(() => {
@@ -244,25 +239,36 @@ export default function Appetizer() {
         }
       }
 
-      // meat
-      if (item === "meat") {
+      if (item === "drink") {
         switch (color) {
-          case "ORANGE":
+          case "PURPLE":
             setGameState((prev) => ({
               ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                meat: {
-                  ...prev.breakfast.meat,
-                  berry: true,
+              infinityFuzz: {
+                ...prev.infinityFuzz,
+                drink: {
+                  ...prev.infinityFuzz.drink,
+                  stone: true,
+                },
+              },
+            }));
+            break;
+          case "MINT":
+            setGameState((prev) => ({
+              ...prev,
+              infinityFuzz: {
+                ...prev.infinityFuzz,
+                drink: {
+                  ...prev.infinityFuzz.drink,
+                  minty: true,
                 },
               },
             }));
             break;
           default:
-            console.log("PENALTY meat", "item ->", item, "color ->", color);
+            console.log("PENALTY drink", "item ->", item, "color ->", color);
             setPenalty((prev) => prev + 10);
-            setPenaltyDisplay(true);
+            // setPenaltyDisplay(true);
             setTimeout(() => {
               setPenaltyDisplay(false);
             }, 1000);
@@ -300,19 +306,14 @@ export default function Appetizer() {
       className="relative"
     >
       <div className="absolute bottom-4 right-4 z-50 flex flex-col">
-        <h1
-          className={clsx(
-            "text-lg font-bold",
-            page === "main" ? "text-white" : "text-black",
-          )}
-        >
+        <h1 className={clsx("text-lg font-bold", "text-white")}>
           time: {time}
         </h1>
       </div>
 
       {page === "main" && (
-        <AppetizerPage
-          breakfast={gameState.breakfast}
+        <DrinksPage
+          infinityFuzz={gameState.infinityFuzz}
           changeItem={changeItem}
           currentItem={item}
         />
@@ -334,12 +335,7 @@ export default function Appetizer() {
 
       {gameEnd && (
         <div className="absolute left-1/2 top-4 z-50 flex -translate-x-1/2 flex-col">
-          <h1
-            className={clsx(
-              "text-2xl font-bold",
-              page === "main" ? "text-white" : "text-black",
-            )}
-          >
+          <h1 className={clsx("text-2xl font-bold", "text-white")}>
             score: {score}
           </h1>
         </div>

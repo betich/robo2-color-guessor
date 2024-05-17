@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { GameStateProps } from "./question";
+import { GameStateProps } from "../question";
 
 export function MeatQuestion({ gameState, setGameState }: GameStateProps) {
   const [splash, setSplash] = useState<boolean>(true);

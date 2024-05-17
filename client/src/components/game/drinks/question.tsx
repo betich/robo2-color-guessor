@@ -1,13 +1,12 @@
-import Image from "next/image";
-import { HotDogQuestion } from "./hotdog";
-import { AppetizerGameState } from "@/app/(menu)/appetizer/page";
 import { Dispatch, SetStateAction } from "react";
-import { BunQuestion } from "./bun";
-import { MeatQuestion } from "./meat";
+import { IceQuestion } from "./scenes/ice";
+import { DrinksGameState } from "@/app/(menu)/drinks/page";
+import { ToppingQuestion } from "./scenes/topping";
+import { DrinkQuestion } from "./scenes/drink";
 
 export interface GameStateProps {
-  gameState: AppetizerGameState;
-  setGameState: Dispatch<SetStateAction<AppetizerGameState>>;
+  gameState: DrinksGameState;
+  setGameState: Dispatch<SetStateAction<DrinksGameState>>;
 }
 
 interface QuestionProps extends GameStateProps {
@@ -49,15 +48,17 @@ export default function QuestionPage({
   setGameState,
 }: QuestionProps) {
   switch (item) {
-    case "hotdog":
+    case "ice":
+      return <IceQuestion gameState={gameState} setGameState={setGameState} />;
+    case "topping":
       return (
-        <HotDogQuestion gameState={gameState} setGameState={setGameState} />
+        <ToppingQuestion gameState={gameState} setGameState={setGameState} />
       );
-    case "bun":
-      return <BunQuestion gameState={gameState} setGameState={setGameState} />;
-    case "meat":
-      return <MeatQuestion gameState={gameState} setGameState={setGameState} />;
+    case "drink":
+      return (
+        <DrinkQuestion gameState={gameState} setGameState={setGameState} />
+      );
     default:
-      return null;
+      return <></>;
   }
 }
