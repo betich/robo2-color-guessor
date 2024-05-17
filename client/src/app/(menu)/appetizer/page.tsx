@@ -7,6 +7,16 @@ import { useTimer } from "@/utils/useTimer";
 import QuestionPage, { ColorType } from "@/components/game/scenes/question";
 import { timeToScore } from "@/utils/score";
 
+import { io, type Socket } from "socket.io-client";
+
+interface ServerToClientEvents {
+  detect_color: (data: { data: string[] }) => void;
+}
+
+interface ClientToServerEvents {
+  // hello: () => void;
+}
+
 export interface AppetizerGameState {
   breakfast: BreakfastProps;
 }
@@ -127,7 +137,27 @@ export default function Appetizer() {
     }
   }, [gameState, backToMain, page, time]);
 
+  useEffect(() => {
+    const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+      "http://localhost:8080",
+    );
+
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+    });
+
+    socket.on("detect_color", (data) => {
+      handleColorDetect(data.data[0] as ColorType);
+    });
+  }, []);
+
   const handleColorDetect = (color: ColorType) => {
+    console.log("color detected: ->", color);
+
     // hotdog
     switch (color) {
       case "GREEN":
