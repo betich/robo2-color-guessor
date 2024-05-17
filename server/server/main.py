@@ -34,8 +34,9 @@ def my_event_any_namespace(namespace, sid, data):
     pass
 
 @sio.on('color', namespace='*')
-def my_event_any_namespace(namespace, sid, data):
+async def my_event_any_namespace(namespace, sid, data):
     print("qr code scanned: ", data)
+    await sio.emit('detect_color', data)
     pass
 
 

@@ -5,7 +5,7 @@ interface ServerToClientEvents {
   basicEmit: (a: number, b: string, c: Buffer) => void;
   withAck: (d: string, callback: (e: number) => void) => void;
   server_says_hi: (data: SocketData) => void;
-  color: (color: string) => void;
+  detect_color: (data: { data: string[] }) => void;
 }
 
 interface ClientToServerEvents {
@@ -21,20 +21,37 @@ interface SocketData {
   message: string;
 }
 
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
-  io("ws://0.0.0.0:8080");
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+  "http://localhost:8080"
+);
 
 socket.on("connect", () => {
   console.log("connected");
 });
 
-// say hi
-socket.emit("hello");
-
-socket.emit("say_hi", "world", (response) => {
-  console.log(response); // "got it"
+socket.on("disconnect", () => {
+  console.log("disconnected");
 });
 
+const listener = (eventName: string, ...args: any) => {
+  console.log(eventName, args);
+};
+
+socket.onAnyOutgoing(listener);
+
+// say hi
 socket.on("server_says_hi", (data) => {
   console.log(data.message); // "hi"
 });
+
+// color
+socket.on("detect_color", (data) => {
+  console.log(data.data); // ["red", "blue", "green"]
+});
+
+socket.onAny(() => {
+  // not triggered when the acknowledgement is received
+  console.log("hi");
+});
+
+socket.on;
