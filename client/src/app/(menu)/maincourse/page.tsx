@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import AppetizerPage from "@/components/game/appetizer/main";
+import MainCoursePage from "@/components/game/maincourse/main";
 import { useTimer } from "@/utils/useTimer";
-import QuestionPage, { ColorType } from "@/components/game/appetizer/question";
+import QuestionPage, { ColorType } from "@/components/game/maincourse/question";
 import { timeToScore } from "@/utils/score";
 
 import { io, type Socket } from "socket.io-client";
@@ -18,24 +18,40 @@ interface ClientToServerEvents {
   // hello: () => void;
 }
 
-export interface AppetizerGameState {
-  breakfast: BreakfastProps;
+export interface MainCourseGameState {
+  flower: FlowerProps;
 }
 
-export interface BreakfastProps {
-  hotdog: { leaf: boolean; star: boolean; amanita: boolean; done: boolean };
-  bun: { jellyfish: boolean; gummy: boolean; done: boolean };
-  meat: { berry: boolean; done: boolean };
+export interface FlowerProps {
+  base: {
+    done: boolean;
+    minty: boolean;
+    brown: boolean;
+  };
+  pollen: {
+    done: boolean;
+    red: boolean;
+    green: boolean;
+    blue: boolean;
+  };
 }
 
-export type ItemType = keyof AppetizerGameState["breakfast"];
+export type ItemType = keyof MainCourseGameState["flower"];
 
 export default function Appetizer() {
-  const [gameState, setGameState] = useState<AppetizerGameState>({
-    breakfast: {
-      hotdog: { leaf: false, star: false, amanita: false, done: false },
-      bun: { jellyfish: false, gummy: false, done: false },
-      meat: { berry: false, done: false },
+  const [gameState, setGameState] = useState<MainCourseGameState>({
+    flower: {
+      base: {
+        done: false,
+        minty: false,
+        brown: false,
+      },
+      pollen: {
+        done: false,
+        red: false,
+        green: false,
+        blue: false,
+      },
     },
   });
 
@@ -43,7 +59,7 @@ export default function Appetizer() {
   const [penaltyDisplay, setPenaltyDisplay] = useState<boolean>(false);
 
   const [page, setPage] = useState<"main" | "question">("main");
-  const [item, setItem] = useState<ItemType>("meat");
+  const [item, setItem] = useState<ItemType>("pollen");
 
   const { time, stopTimer } = useTimer();
   const [gameEnd, setGameEnd] = useState<boolean>(false);
@@ -60,19 +76,45 @@ export default function Appetizer() {
 
   useEffect(() => {
     // hotdog
-    const hotdogState = gameState.breakfast.hotdog;
+    // const hotdogState = gameState.breakfast.hotdog;
+    // if (
+    //   hotdogState.leaf &&
+    //   hotdogState.star &&
+    //   hotdogState.amanita &&
+    //   !hotdogState.done
+    // ) {
+    //   setGameState((prev) => ({
+    //     ...prev,
+    //     breakfast: {
+    //       ...prev.breakfast,
+    //       hotdog: {
+    //         ...prev.breakfast.hotdog,
+    //         done: true,
+    //       },
+    //     },
+    //   }));
+
+    //   setTimeout(() => {
+    //     backToMain();
+    //   }, 1000);
+    // }
+
+    // pollen
+
+    const pollenState = gameState.flower.pollen;
+
     if (
-      hotdogState.leaf &&
-      hotdogState.star &&
-      hotdogState.amanita &&
-      !hotdogState.done
+      pollenState.red &&
+      pollenState.green &&
+      pollenState.blue &&
+      !pollenState.done
     ) {
       setGameState((prev) => ({
         ...prev,
-        breakfast: {
-          ...prev.breakfast,
-          hotdog: {
-            ...prev.breakfast.hotdog,
+        flower: {
+          ...prev.flower,
+          pollen: {
+            ...prev.flower.pollen,
             done: true,
           },
         },
@@ -83,35 +125,17 @@ export default function Appetizer() {
       }, 1000);
     }
 
-    // bun
-    const bunState = gameState.breakfast.bun;
-    if (bunState.jellyfish && bunState.gummy && !bunState.done) {
+    // base
+
+    const baseState = gameState.flower.base;
+
+    if (baseState.minty && baseState.brown && !baseState.done) {
       setGameState((prev) => ({
         ...prev,
-        breakfast: {
-          ...prev.breakfast,
-          bun: {
-            ...prev.breakfast.bun,
-            done: true,
-          },
-        },
-      }));
-
-      setTimeout(() => {
-        backToMain();
-      }, 1000);
-    }
-
-    // meat
-    const meatState = gameState.breakfast.meat;
-
-    if (meatState.berry && !meatState.done) {
-      setGameState((prev) => ({
-        ...prev,
-        breakfast: {
-          ...prev.breakfast,
-          meat: {
-            ...prev.breakfast.meat,
+        flower: {
+          ...prev.flower,
+          base: {
+            ...prev.flower.base,
             done: true,
           },
         },
@@ -123,15 +147,10 @@ export default function Appetizer() {
     }
 
     // all done
-    if (
-      hotdogState.done &&
-      bunState.done &&
-      meatState.done &&
-      page === "main"
-    ) {
+    if (pollenState.done && baseState.done && page === "main") {
       // save score
       const player = localStorage.getItem("currentPlayer");
-      const score = timeToScore(time, penalty);
+      const score = timeToScore(time, penalty, 10000);
 
       stopTimer();
       setGameEnd(true);
@@ -157,84 +176,96 @@ export default function Appetizer() {
       console.log("item", item);
 
       // hotdog
-      if (item === "hotdog") {
+      // if (item === "hotdog") {
+      //   switch (color) {
+      //     case "GREEN":
+      //       setGameState((prev) => ({
+      //         ...prev,
+      //         breakfast: {
+      //           ...prev.breakfast,
+      //           hotdog: {
+      //             ...prev.breakfast.hotdog,
+      //             leaf: true,
+      //           },
+      //         },
+      //       }));
+      //       break;
+      //     case "WHITE":
+      //       setGameState((prev) => ({
+      //         ...prev,
+      //         breakfast: {
+      //           ...prev.breakfast,
+      //           hotdog: {
+      //             ...prev.breakfast.hotdog,
+      //             star: true,
+      //           },
+      //         },
+      //       }));
+      //       break;
+      //     case "RED":
+      //       setGameState((prev) => ({
+      //         ...prev,
+      //         breakfast: {
+      //           ...prev.breakfast,
+      //           hotdog: {
+      //             ...prev.breakfast.hotdog,
+      //             amanita: true,
+      //           },
+      //         },
+      //       }));
+      //       break;
+      //     default:
+      //       console.log("PENALTY hotdog", "item ->", item, "color ->", color);
+      //       setPenalty((prev) => prev + 10);
+      //       // setPenaltyDisplay(true);
+      //       setTimeout(() => {
+      //         setPenaltyDisplay(false);
+      //       }, 1000);
+      //       break;
+      //   }
+      // }
+
+      // pollen
+      if (item === "pollen") {
         switch (color) {
-          case "GREEN":
-            setGameState((prev) => ({
-              ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                hotdog: {
-                  ...prev.breakfast.hotdog,
-                  leaf: true,
-                },
-              },
-            }));
-            break;
-          case "WHITE":
-            setGameState((prev) => ({
-              ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                hotdog: {
-                  ...prev.breakfast.hotdog,
-                  star: true,
-                },
-              },
-            }));
-            break;
           case "RED":
             setGameState((prev) => ({
               ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                hotdog: {
-                  ...prev.breakfast.hotdog,
-                  amanita: true,
+              flower: {
+                ...prev.flower,
+                pollen: {
+                  ...prev.flower.pollen,
+                  red: true,
                 },
               },
             }));
             break;
-          default:
-            console.log("PENALTY hotdog", "item ->", item, "color ->", color);
-            setPenalty((prev) => prev + 10);
-            // setPenaltyDisplay(true);
-            setTimeout(() => {
-              setPenaltyDisplay(false);
-            }, 1000);
+          case "GREEN":
+            setGameState((prev) => ({
+              ...prev,
+              flower: {
+                ...prev.flower,
+                pollen: {
+                  ...prev.flower.pollen,
+                  green: true,
+                },
+              },
+            }));
             break;
-        }
-      }
-
-      // bun
-      if (item === "bun") {
-        switch (color) {
           case "BLUE":
             setGameState((prev) => ({
               ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                bun: {
-                  ...prev.breakfast.bun,
-                  jellyfish: true,
-                },
-              },
-            }));
-            break;
-          case "YELLOW":
-            setGameState((prev) => ({
-              ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                bun: {
-                  ...prev.breakfast.bun,
-                  gummy: true,
+              flower: {
+                ...prev.flower,
+                pollen: {
+                  ...prev.flower.pollen,
+                  blue: true,
                 },
               },
             }));
             break;
           default:
-            console.log("PENALTY bun", "item ->", item, "color ->", color);
+            console.log("PENALTY pollen", "item ->", item, "color ->", color);
             setPenalty((prev) => prev + 10);
             // setPenaltyDisplay(true);
             setTimeout(() => {
@@ -244,25 +275,38 @@ export default function Appetizer() {
         }
       }
 
-      // meat
-      if (item === "meat") {
+      // base
+
+      if (item === "base") {
         switch (color) {
-          case "ORANGE":
+          case "MINT":
             setGameState((prev) => ({
               ...prev,
-              breakfast: {
-                ...prev.breakfast,
-                meat: {
-                  ...prev.breakfast.meat,
-                  berry: true,
+              flower: {
+                ...prev.flower,
+                base: {
+                  ...prev.flower.base,
+                  minty: true,
+                },
+              },
+            }));
+            break;
+          case "BROWN":
+            setGameState((prev) => ({
+              ...prev,
+              flower: {
+                ...prev.flower,
+                base: {
+                  ...prev.flower.base,
+                  brown: true,
                 },
               },
             }));
             break;
           default:
-            console.log("PENALTY meat", "item ->", item, "color ->", color);
+            console.log("PENALTY base", "item ->", item, "color ->", color);
             setPenalty((prev) => prev + 10);
-            setPenaltyDisplay(true);
+            // setPenaltyDisplay(true);
             setTimeout(() => {
               setPenaltyDisplay(false);
             }, 1000);
@@ -311,8 +355,8 @@ export default function Appetizer() {
       </div>
 
       {page === "main" && (
-        <AppetizerPage
-          breakfast={gameState.breakfast}
+        <MainCoursePage
+          flower={gameState.flower}
           changeItem={changeItem}
           currentItem={item}
         />
