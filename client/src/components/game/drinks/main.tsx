@@ -3,7 +3,7 @@
 import type { DrinksGameState, ItemType } from "@/app/(menu)/drinks/page";
 import BackIcon from "@/components/icon/back";
 import InfinityFuzz from "@/components/meal/infinity_fuzz";
-import BreakfastTag from "@/components/vectors/tags/breakfast_tag";
+import { InfinityFuzzTag } from "@/components/vectors/tags/infinityfuzz_tag";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback } from "react";
@@ -57,8 +57,8 @@ export default function DrinksPage({
       </div>
 
       {drink.done && ice.done && topping.done && (
-        <div className="z-60 absolute bottom-4 left-1/2 -translate-x-1/2">
-          Done!
+        <div className="z-60 absolute right-8 top-[14rem]">
+          <InfinityFuzzTag />
         </div>
       )}
     </main>
