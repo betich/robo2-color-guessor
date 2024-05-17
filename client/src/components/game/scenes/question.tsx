@@ -14,7 +14,7 @@ interface QuestionProps extends GameStateProps {
   item: string;
 }
 
-type ColorType =
+export type ColorType =
   | "RED"
   | "YELLOW"
   | "BLUE"

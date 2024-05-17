@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import AppetizerPage from "@/components/game/appetizer/main";
 import { useTimer } from "@/utils/useTimer";
-import QuestionPage from "@/components/game/scenes/question";
+import QuestionPage, { ColorType } from "@/components/game/scenes/question";
 import { timeToScore } from "@/utils/score";
 
 export interface AppetizerGameState {
@@ -126,6 +126,50 @@ export default function Appetizer() {
       }
     }
   }, [gameState, backToMain, page, time]);
+
+  const handleColorDetect = (color: ColorType) => {
+    // hotdog
+    switch (color) {
+      case "GREEN":
+        setGameState((prev) => ({
+          ...prev,
+          breakfast: {
+            ...prev.breakfast,
+            hotdog: {
+              ...prev.breakfast.hotdog,
+              leaf: true,
+            },
+          },
+        }));
+        break;
+      case "WHITE":
+        setGameState((prev) => ({
+          ...prev,
+          breakfast: {
+            ...prev.breakfast,
+            hotdog: {
+              ...prev.breakfast.hotdog,
+              star: true,
+            },
+          },
+        }));
+        break;
+      case "RED":
+        setGameState((prev) => ({
+          ...prev,
+          breakfast: {
+            ...prev.breakfast,
+            hotdog: {
+              ...prev.breakfast.hotdog,
+              amanita: true,
+            },
+          },
+        }));
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <main

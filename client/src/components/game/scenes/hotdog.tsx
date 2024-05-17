@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { GameStateProps } from "./question";
+import { ColorType, GameStateProps } from "./question";
+import { Scanner } from "@yudiel/react-qr-scanner";
 
 export function HotDogQuestion({ gameState, setGameState }: GameStateProps) {
   const [splash, setSplash] = useState<boolean>(true);
