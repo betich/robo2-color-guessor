@@ -12,7 +12,7 @@ start = "run:main"
 python = "^3.12"
 opencv-python = "^4.9.0.80"
 ultralytics = "^8.2.2"
-python-socketio = "^5.11.2"
+python-socketio = {extras = ["asyncio-client"], version = "^5.11.2"}
 aiohttp = "^3.9.5"
 
 

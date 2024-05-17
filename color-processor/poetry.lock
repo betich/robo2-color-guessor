@@ -1412,6 +1412,7 @@ files = [
 ]
 
 [package.dependencies]
+aiohttp = {version = ">=3.4", optional = true, markers = "extra == \"asyncio-client\""}
 bidict = ">=0.21.0"
 python-engineio = ">=4.8.0"
 
@@ -1942,4 +1943,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "8a9f20022344c443166d06dbd8da7866d29e5319ef09211c6fe2554c37cba352"
+content-hash = "4d77b7b21171b371fa2c5168c540f11e2bde0eeca92627131e83764b6167d228"

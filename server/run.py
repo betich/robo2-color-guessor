@@ -1,8 +1,7 @@
-from server import app,socketio
+from server import web,app
 
 def main():
-  app.run(port=5002)
-  socketio.run(app)
+  web.run_app(app)
 
 if __name__ == "__main__":
   main()

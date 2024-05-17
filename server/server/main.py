@@ -33,4 +33,9 @@ def my_event_any_namespace(namespace, sid, data):
     print("Socket ID: ", sid, " Namespace: ", namespace, " Data: ", data)
     pass
 
+@sio.on('color', namespace='*')
+def my_event_any_namespace(namespace, sid, data):
+    print("qr code scanned: ", data)
+    pass
+
 

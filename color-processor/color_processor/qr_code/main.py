@@ -1,5 +1,4 @@
 import cv2
-from color_processor.socket import sio
 
 def detect_qr_code(img_path):
   qcd = cv2.QRCodeDetector()
@@ -16,7 +15,7 @@ def detect_qr_code(img_path):
 
   return (retval, decoded_info)
 
-def qr_code_camera():
+def qr_code_camera(sio):
   # 0 -> webcam
   # 1 -> built-in camera
   camera_id = 1
