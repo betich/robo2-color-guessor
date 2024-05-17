@@ -14,9 +14,9 @@ export function MeatQuestion({ gameState, setGameState }: GameStateProps) {
           ...prev,
           breakfast: {
             ...prev.breakfast,
-            hotdog: {
-              ...prev.breakfast.hotdog,
-              leaf: true,
+            meat: {
+              ...prev.breakfast.meat,
+              berry: true,
             },
           },
         }));
@@ -52,7 +52,7 @@ export function MeatQuestion({ gameState, setGameState }: GameStateProps) {
         <>
           <Image src="/easy_play.png" layout="fill" objectFit="cover" alt="" />
 
-          {gameState.breakfast.hotdog.leaf && (
+          {gameState.breakfast.meat.berry && (
             <div className="absolute bottom-[15rem] left-[22rem] flex w-36 flex-col items-center gap-y-4 p-4">
               <Image
                 src="/breakfast/gummy.png"

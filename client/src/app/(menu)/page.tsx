@@ -1,8 +1,8 @@
 "use client";
-import Appetizer from "@/components/menu/appetizer";
-import Dessert from "@/components/menu/dessert";
-import Drinks from "@/components/menu/drinks";
-import MainCourse from "@/components/menu/main_course";
+import Appetizer from "@/components/vectors/appetizer";
+import Dessert from "@/components/vectors/dessert";
+import Drinks from "@/components/vectors/drinks";
+import MainCourse from "@/components/vectors/main_course";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";

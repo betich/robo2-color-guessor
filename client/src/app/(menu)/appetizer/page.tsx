@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import AppetizerPage from "@/components/game/appetizer/main";
 import { useTimer } from "@/utils/useTimer";
 import QuestionPage from "@/components/game/scenes/question";
+import { timeToScore } from "@/utils/score";
 
 export interface AppetizerGameState {
   breakfast: BreakfastProps;
@@ -83,27 +84,48 @@ export default function Appetizer() {
       setTimeout(() => {
         backToMain();
       }, 1000);
+    }
 
-      // meat
-      const meatState = gameState.breakfast.meat;
-      if (meatState.berry && !meatState.done) {
-        setGameState((prev) => ({
-          ...prev,
-          breakfast: {
-            ...prev.breakfast,
-            meat: {
-              ...prev.breakfast.meat,
-              done: true,
-            },
+    // meat
+    const meatState = gameState.breakfast.meat;
+
+    if (meatState.berry && !meatState.done) {
+      setGameState((prev) => ({
+        ...prev,
+        breakfast: {
+          ...prev.breakfast,
+          meat: {
+            ...prev.breakfast.meat,
+            done: true,
           },
-        }));
+        },
+      }));
 
-        setTimeout(() => {
-          backToMain();
-        }, 1000);
+      setTimeout(() => {
+        backToMain();
+      }, 1000);
+    }
+
+    // all done
+    if (
+      hotdogState.done &&
+      bunState.done &&
+      meatState.done &&
+      page === "main"
+    ) {
+      // save score
+      const player = localStorage.getItem("currentPlayer");
+      const score = timeToScore(time);
+
+      if (player === "p1") {
+        localStorage.setItem("p1HighScore", String(score));
+      }
+
+      if (player === "p2") {
+        localStorage.setItem("p2HighScore", String(score));
       }
     }
-  }, [gameState, backToMain]);
+  }, [gameState, backToMain, page, time]);
 
   return (
     <main

@@ -3,6 +3,7 @@
 import type { AppetizerGameState, ItemType } from "@/app/(menu)/appetizer/page";
 import BackIcon from "@/components/icon/back";
 import Breakfast from "@/components/meal/breakfast";
+import BreakfastTag from "@/components/vectors/tags/breakfast_tag";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback } from "react";
@@ -45,6 +46,12 @@ export default function AppetizerPage({
           <Breakfast bun={bun.done} hotdog={hotdog.done} meat={meat.done} />
         </button>
       </div>
+
+      {bun.done && hotdog.done && meat.done && (
+        <div className="z-60 absolute bottom-4 left-1/2 -translate-x-1/2">
+          <BreakfastTag className="w-[24rem]" />
+        </div>
+      )}
     </main>
   );
 }
