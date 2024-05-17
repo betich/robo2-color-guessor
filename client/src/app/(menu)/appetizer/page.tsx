@@ -12,8 +12,8 @@ export interface AppetizerGameState {
 
 export interface BreakfastProps {
   hotdog: { leaf: boolean; star: boolean; amanita: boolean; done: boolean };
-  bun: { done: boolean };
-  meat: { done: boolean };
+  bun: { jellyfish: boolean; gummy: boolean; done: boolean };
+  meat: { berry: boolean; done: boolean };
 }
 
 export type ItemType = keyof AppetizerGameState["breakfast"];
@@ -21,14 +21,14 @@ export type ItemType = keyof AppetizerGameState["breakfast"];
 export default function Appetizer() {
   const [gameState, setGameState] = useState<AppetizerGameState>({
     breakfast: {
-      bun: { done: false },
       hotdog: { leaf: false, star: false, amanita: false, done: false },
-      meat: { done: false },
+      bun: { jellyfish: false, gummy: false, done: false },
+      meat: { berry: false, done: false },
     },
   });
 
   const [page, setPage] = useState<"main" | "question">("main");
-  const [item, setItem] = useState<ItemType>("bun");
+  const [item, setItem] = useState<ItemType>("meat");
 
   const time = useTimer();
 
@@ -64,6 +64,44 @@ export default function Appetizer() {
       setTimeout(() => {
         backToMain();
       }, 1000);
+    }
+
+    // bun
+    const bunState = gameState.breakfast.bun;
+    if (bunState.jellyfish && bunState.gummy && !bunState.done) {
+      setGameState((prev) => ({
+        ...prev,
+        breakfast: {
+          ...prev.breakfast,
+          bun: {
+            ...prev.breakfast.bun,
+            done: true,
+          },
+        },
+      }));
+
+      setTimeout(() => {
+        backToMain();
+      }, 1000);
+
+      // meat
+      const meatState = gameState.breakfast.meat;
+      if (meatState.berry && !meatState.done) {
+        setGameState((prev) => ({
+          ...prev,
+          breakfast: {
+            ...prev.breakfast,
+            meat: {
+              ...prev.breakfast.meat,
+              done: true,
+            },
+          },
+        }));
+
+        setTimeout(() => {
+          backToMain();
+        }, 1000);
+      }
     }
   }, [gameState, backToMain]);
 

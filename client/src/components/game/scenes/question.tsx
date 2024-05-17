@@ -2,6 +2,8 @@ import Image from "next/image";
 import { HotDogQuestion } from "./hotdog";
 import { AppetizerGameState } from "@/app/(menu)/appetizer/page";
 import { Dispatch, SetStateAction } from "react";
+import { BunQuestion } from "./bun";
+import { MeatQuestion } from "./meat";
 
 export interface GameStateProps {
   gameState: AppetizerGameState;
@@ -51,6 +53,10 @@ export default function QuestionPage({
       return (
         <HotDogQuestion gameState={gameState} setGameState={setGameState} />
       );
+    case "bun":
+      return <BunQuestion gameState={gameState} setGameState={setGameState} />;
+    case "meat":
+      return <MeatQuestion gameState={gameState} setGameState={setGameState} />;
     default:
       return null;
   }

@@ -5,6 +5,7 @@ import BackIcon from "@/components/icon/back";
 import Breakfast from "@/components/meal/breakfast";
 import Image from "next/image";
 import Link from "next/link";
+import { useCallback } from "react";
 
 interface AppetizerPageProps extends AppetizerGameState {
   currentItem: ItemType;
@@ -16,15 +17,15 @@ export default function AppetizerPage({
   currentItem,
   breakfast: { bun, hotdog, meat },
 }: AppetizerPageProps) {
-  const toNextItem = () => {
-    if (currentItem === "bun") {
+  const toNextItem = useCallback(() => {
+    if (currentItem === "meat") {
       changeItem("hotdog");
     } else if (currentItem === "hotdog") {
-      changeItem("meat");
-    } else {
       changeItem("bun");
+    } else if (currentItem === "bun") {
+      changeItem("meat");
     }
-  };
+  }, [changeItem, currentItem]);
 
   return (
     <main

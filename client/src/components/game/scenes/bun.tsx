@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { GameStateProps } from "./question";
 
-export function HotDogQuestion({ gameState, setGameState }: GameStateProps) {
+export function BunQuestion({ gameState, setGameState }: GameStateProps) {
   const [splash, setSplash] = useState<boolean>(true);
 
   // listen to keyboard events
@@ -14,9 +14,9 @@ export function HotDogQuestion({ gameState, setGameState }: GameStateProps) {
           ...prev,
           breakfast: {
             ...prev.breakfast,
-            hotdog: {
-              ...prev.breakfast.hotdog,
-              leaf: true,
+            bun: {
+              ...prev.breakfast.bun,
+              gummy: true,
             },
           },
         }));
@@ -27,22 +27,9 @@ export function HotDogQuestion({ gameState, setGameState }: GameStateProps) {
           ...prev,
           breakfast: {
             ...prev.breakfast,
-            hotdog: {
-              ...prev.breakfast.hotdog,
-              star: true,
-            },
-          },
-        }));
-      }
-
-      if (e.key === "e") {
-        setGameState((prev) => ({
-          ...prev,
-          breakfast: {
-            ...prev.breakfast,
-            hotdog: {
-              ...prev.breakfast.hotdog,
-              amanita: true,
+            bun: {
+              ...prev.breakfast.bun,
+              jellyfish: true,
             },
           },
         }));
@@ -67,9 +54,9 @@ export function HotDogQuestion({ gameState, setGameState }: GameStateProps) {
           <Image src="/easy.png" layout="fill" objectFit="cover" alt="" />
           <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
             <p className="text-center text-4xl font-bold text-black">
-              The color of Italy Flag
+              Two colors that make green
             </p>
-            <p className="text-center text-4xl font-bold text-black">* * *</p>
+            <p className="text-center text-4xl font-bold text-black">* *</p>
           </div>
         </>
       )}
@@ -78,42 +65,29 @@ export function HotDogQuestion({ gameState, setGameState }: GameStateProps) {
         <>
           <Image src="/easy_play.png" layout="fill" objectFit="cover" alt="" />
 
-          {gameState.breakfast.hotdog.leaf && (
+          {gameState.breakfast.bun.jellyfish && (
             <div className="absolute bottom-[5rem] left-[15rem] flex w-36 flex-col items-center gap-y-4 p-4">
               <Image
-                src="/breakfast/leaf.png"
+                src="/breakfast/jellyfish.png"
                 width={100}
                 height={100}
                 alt=""
               />
 
-              <p className="text-center text-lg">four-leaf clover (green)</p>
+              <p className="text-center text-lg">glowing jellyfish (blue)</p>
             </div>
           )}
 
-          {gameState.breakfast.hotdog.star && (
+          {gameState.breakfast.bun.gummy && (
             <div className="absolute left-[23rem] top-[8rem] flex w-36 flex-col items-center gap-y-4 p-4">
               <Image
-                src="/breakfast/star.png"
+                src="/breakfast/gummy.png"
                 width={100}
                 height={100}
                 alt=""
               />
 
-              <p className="text-center text-lg">lost piece of star (white)</p>
-            </div>
-          )}
-
-          {gameState.breakfast.hotdog.amanita && (
-            <div className="absolute bottom-[12rem] right-[13rem] flex w-36 flex-col items-center gap-y-4 p-4">
-              <Image
-                src="/breakfast/amanita.png"
-                width={100}
-                height={100}
-                alt=""
-              />
-
-              <p className="text-center text-lg">amanita (red)</p>
+              <p className="text-center text-lg">energy gummy (yellow)</p>
             </div>
           )}
         </>
