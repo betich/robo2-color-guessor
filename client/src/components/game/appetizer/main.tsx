@@ -1,6 +1,9 @@
 "use client";
 
-import type { AppetizerGameState, ItemType } from "@/app/(menu)/appetizer/page";
+import {
+  type AppetizerGameState,
+  type ItemType,
+} from "@/app/(menu)/appetizer/page";
 import BackIcon from "@/components/icon/back";
 import Breakfast from "@/components/meal/breakfast";
 import BreakfastTag from "@/components/vectors/tags/breakfast_tag";
@@ -13,19 +16,24 @@ interface AppetizerPageProps extends AppetizerGameState {
   changeItem: (item: ItemType) => void;
 }
 
+const getNextItem = (currentItem: ItemType): ItemType => {
+  if (currentItem === "meat") {
+    return "hotdog";
+  } else if (currentItem === "hotdog") {
+    return "bun";
+  } else if (currentItem === "bun") {
+    return "meat";
+  }
+  return "meat";
+};
+
 export default function AppetizerPage({
   changeItem,
   currentItem,
   breakfast: { bun, hotdog, meat },
 }: AppetizerPageProps) {
   const toNextItem = useCallback(() => {
-    if (currentItem === "meat") {
-      changeItem("hotdog");
-    } else if (currentItem === "hotdog") {
-      changeItem("bun");
-    } else if (currentItem === "bun") {
-      changeItem("meat");
-    }
+    changeItem(getNextItem(currentItem));
   }, [changeItem, currentItem]);
 
   return (

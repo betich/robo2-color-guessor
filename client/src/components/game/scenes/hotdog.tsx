@@ -117,6 +117,10 @@ export function HotDogQuestion({ gameState, setGameState }: GameStateProps) {
               <p className="text-center text-lg">amanita (red)</p>
             </div>
           )}
+
+          <p className="absolute right-4 top-4 text-center text-xl font-bold text-black">
+            The color of Italy Flag
+          </p>
         </>
       )}
     </>

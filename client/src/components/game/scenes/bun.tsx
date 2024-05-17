@@ -90,6 +90,10 @@ export function BunQuestion({ gameState, setGameState }: GameStateProps) {
               <p className="text-center text-lg">energy gummy (yellow)</p>
             </div>
           )}
+
+          <p className="absolute right-4 top-4 text-center text-xl font-bold text-black">
+            Two colors that make green
+          </p>
         </>
       )}
     </>

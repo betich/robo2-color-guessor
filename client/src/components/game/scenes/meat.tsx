@@ -55,7 +55,7 @@ export function MeatQuestion({ gameState, setGameState }: GameStateProps) {
           {gameState.breakfast.meat.berry && (
             <div className="absolute bottom-[15rem] left-[22rem] flex w-36 flex-col items-center gap-y-4 p-4">
               <Image
-                src="/breakfast/gummy.png"
+                src="/breakfast/berry.png"
                 width={100}
                 height={100}
                 alt=""
@@ -64,6 +64,10 @@ export function MeatQuestion({ gameState, setGameState }: GameStateProps) {
               <p className="text-center text-lg">poison berry (orange)</p>
             </div>
           )}
+
+          <p className="absolute right-4 top-4 text-center text-xl font-bold text-black">
+            Opposite color of blue
+          </p>
         </>
       )}
     </>
